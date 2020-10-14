@@ -1,0 +1,15 @@
+FROM nginx:1.18-alpine
+
+RUN apk update
+RUN apk add bash \
+            openssl
+
+COPY ./etc/nginx/nginx.conf /etc/nginx/nginx.conf
+RUN mkdir /etc/nginx/sites-enabled/
+
+RUN addgroup --gid {{ group_gid }} {{ user_group }}
+RUN adduser  {{ user_name }} --uid {{ user_uid }}  -G {{ user_group }} --disabled-password
+RUN echo "{{ user_name }}:{{ user_password }}" | chpasswd
+
+EXPOSE 80
+EXPOSE 443

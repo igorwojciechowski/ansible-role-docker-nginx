@@ -1,0 +1,31 @@
+- name: Create docker_nginx directory
+  file:
+    path: "{{ user_home }}/docker/docker_nginx"
+    owner: "{{ user_name }}"
+    group: docker
+    mode: 0550
+    state: directory
+
+- name: Copy Dockerfile
+  template:
+    src: ./Dockerfile.j2
+    dest: "{{ user_home }}/docker/docker_nginx/Dockerfile"
+    owner: "{{ user_name }}"
+    group: docker
+    mode: 0550
+
+- name: Create sites-available
+  file:
+    path: "{{ user_home }}/docker/docker_nginx/etc/nginx/sites-available"
+    owner: "{{ user_name }}"
+    group: docker
+    mode: 0550
+    state: directory
+
+- name: Copy nginx.conf
+  template:
+    src: ./etc/nginx/nginx.conf.j2
+    dest: "{{ user_home }}/docker/docker_nginx/etc/nginx/nginx.conf"
+    owner: "{{ user_name }}"
+    group: docker
+    mode: 0550
